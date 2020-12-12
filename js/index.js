@@ -17,26 +17,28 @@ const randomIntegerFromInterval = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-let intervalID = null;
-
-function changeBgc() {
+function bodyBgc() {
   let bgcolor = colors[randomIntegerFromInterval(0, colors.length - 1)];
   refs.body.style.backgroundColor = bgcolor;
 }
 
-function onStart() {
-  if (refs.start.classList.contains('alreadyClicked')) {
-    return;
-  }
-  refs.start.classList.add('alreadyClicked');
-  intervalID = setInterval(() => changeBgc(), 1000);
-}
+const changeColor = {
+  intervalID: null,
+  isActive: false,
+  start() {
+    if (this.isActive) {
+      return;
+    }
 
-function onStop() {
-  clearInterval(intervalID);
-  refs.start.removeAttribute('class');
-  refs.body.removeAttribute('style');
-}
+    this.isActive = true;
+    this.intervalID = setInterval(bodyBgc, 1000);
+  },
+  stop() {
+    clearInterval(this.intervalID);
+    this.isActive = false;
+    refs.body.removeAttribute('style');
+  },
+};
 
-refs.start.addEventListener('click', onStart);
-refs.stop.addEventListener('click', onStop);
+refs.start.addEventListener('click', changeColor.start.bind(changeColor));
+refs.stop.addEventListener('click', changeColor.stop.bind(changeColor));
