@@ -18,8 +18,13 @@ const randomIntegerFromInterval = (min, max) => {
 };
 
 function bodyBgc() {
-  let bgcolor = colors[randomIntegerFromInterval(0, colors.length - 1)];
-  refs.body.style.backgroundColor = bgcolor;
+  let newBgcId = randomIntegerFromInterval(0, colors.length - 1);
+  let newBgc = colors[newBgcId];
+  const currentBgc = refs.body.style.backgroundColor;
+  if (currentBgc === newBgc) {
+    newBgcolorId += 1;
+  }
+  refs.body.style.backgroundColor = newBgc;
 }
 
 const changeColor = {
