@@ -20,11 +20,8 @@ const randomIntegerFromInterval = (min, max) => {
 function bodyBgc() {
   let newBgcId = randomIntegerFromInterval(0, colors.length - 1);
   let newBgc = colors[newBgcId];
-  const currentBgc = refs.body.style.backgroundColor;
-  if (currentBgc === newBgc) {
-    newBgcolorId += 1;
-  }
   refs.body.style.backgroundColor = newBgc;
+  console.log(newBgcId);
 }
 
 const changeColor = {
@@ -35,11 +32,13 @@ const changeColor = {
       return;
     }
 
+    refs.start.disabled = true;
     this.isActive = true;
     this.intervalID = setInterval(bodyBgc, 1000);
   },
   stop() {
     clearInterval(this.intervalID);
+    refs.start.disabled = false;
     this.isActive = false;
     refs.body.removeAttribute('style');
   },
